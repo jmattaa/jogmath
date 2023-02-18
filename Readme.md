@@ -4,13 +4,7 @@ A header only math library for c and c++
 
 ## Installation
 
-Install the headerfile using wget
-
-```bash
-    wget https://github.com/jon01234/jogmath/jogmath.h
-```
-
-or just download it.
+Clone the repo into your include directory of the project
 
 ## Usage/Examples
 
@@ -73,3 +67,9 @@ vec2_mult(v, vec2_create(1, 2));
 There is also `vec2_mult()` or `ve2_div()` which are used in the same way as `add` and `sub`.
 
 Change the vec2\_ prefix to do math on other vector types. Such as `vec3_add()` or `vec4_mult()`.
+
+### Matricies
+
+---
+
+...
