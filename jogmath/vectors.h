@@ -22,38 +22,36 @@ typedef union vec2
 } vec2;
 
 // All x and y can be u or v
-JOGMATH_VEC_FUNCTION vec2 *vec2_create(float x, float y)
+JOGMATH_VEC_FUNCTION vec2 vec2_create(float x, float y)
 {
-    vec2 *v = (vec2 *)calloc(1, sizeof(vec2));
-
-    v->x = x;
-    v->y = y;
+    // {{x, y}} because it's a union
+    vec2 v = {{x, y}};
 
     return v;
 }
 
-JOGMATH_VEC_FUNCTION void vec2_add(vec2 *a, vec2 *other)
+JOGMATH_VEC_FUNCTION void vec2_add(vec2 *a, vec2 other)
 {
-    a->x += other->x;
-    a->y += other->y;
+    a->x += other.x;
+    a->y += other.y;
 }
 
-JOGMATH_VEC_FUNCTION void vec2_sub(vec2 *a, vec2 *other)
+JOGMATH_VEC_FUNCTION void vec2_sub(vec2 *a, vec2 other)
 {
-    a->x -= other->x;
-    a->y -= other->y;
+    a->x -= other.x;
+    a->y -= other.y;
 }
 
-JOGMATH_VEC_FUNCTION void vec2_mult(vec2 *a, vec2 *other)
+JOGMATH_VEC_FUNCTION void vec2_mult(vec2 *a, vec2 other)
 {
-    a->x *= other->x;
-    a->y *= other->y;
+    a->x *= other.x;
+    a->y *= other.y;
 }
 
-JOGMATH_VEC_FUNCTION void vec2_div(vec2 *a, vec2 *other)
+JOGMATH_VEC_FUNCTION void vec2_div(vec2 *a, vec2 other)
 {
-    a->x /= other->x;
-    a->y /= other->y;
+    a->x /= other.x;
+    a->y /= other.y;
 }
 
 /**
@@ -73,43 +71,41 @@ typedef union vec3
 } vec3;
 
 // x, y, z can be r, g, b
-JOGMATH_VEC_FUNCTION vec3 *vec3_create(float x, float y, float z)
+JOGMATH_VEC_FUNCTION vec3 vec3_create(float x, float y, float z)
 {
-    vec3 *v = (vec3 *)calloc(1, sizeof(vec3));
-
-    v->x = x;
-    v->y = y;
-    v->z = z;
+    vec3 v = {{x,
+               y,
+               z}};
 
     return v;
 }
 
-JOGMATH_VEC_FUNCTION void vec3_add(vec3 *a, vec3 *other)
+JOGMATH_VEC_FUNCTION void vec3_add(vec3 *a, vec3 other)
 {
-    a->x += other->x;
-    a->y += other->y;
-    a->z += other->z;
+    a->x += other.x;
+    a->y += other.y;
+    a->z += other.z;
 }
 
-JOGMATH_VEC_FUNCTION void vec3_sub(vec3 *a, vec3 *other)
+JOGMATH_VEC_FUNCTION void vec3_sub(vec3 *a, vec3 other)
 {
-    a->x -= other->x;
-    a->y -= other->y;
-    a->z -= other->z;
+    a->x -= other.x;
+    a->y -= other.y;
+    a->z -= other.z;
 }
 
-JOGMATH_VEC_FUNCTION void vec3_mult(vec3 *a, vec3 *other)
+JOGMATH_VEC_FUNCTION void vec3_mult(vec3 *a, vec3 other)
 {
-    a->x *= other->x;
-    a->y *= other->y;
-    a->z *= other->z;
+    a->x *= other.x;
+    a->y *= other.y;
+    a->z *= other.z;
 }
 
-JOGMATH_VEC_FUNCTION void vec3_div(vec3 *a, vec3 *other)
+JOGMATH_VEC_FUNCTION void vec3_div(vec3 *a, vec3 other)
 {
-    a->x /= other->x;
-    a->y /= other->y;
-    a->z /= other->z;
+    a->x /= other.x;
+    a->y /= other.y;
+    a->z /= other.z;
 }
 
 /**
@@ -128,48 +124,46 @@ typedef union vec4
     };
 } vec4;
 
-JOGMATH_VEC_FUNCTION vec4 *vec4_create(float x, float y, float z, float w)
+JOGMATH_VEC_FUNCTION vec4 vec4_create(float x, float y, float z, float w)
 {
-    vec4 *v = (vec4 *)calloc(1, sizeof(vec4));
-
-    v->x = x;
-    v->y = y;
-    v->z = z;
-    v->w = w;
+    vec4 v = {{x,
+               y,
+               z,
+               w}};
 
     return v;
 }
 
-JOGMATH_VEC_FUNCTION void vec4_add(vec4 *a, vec4 *other)
+JOGMATH_VEC_FUNCTION void vec4_add(vec4 *a, vec4 other)
 {
-    a->x += other->x;
-    a->y += other->y;
-    a->z += other->z;
-    a->w += other->w;
+    a->x += other.x;
+    a->y += other.y;
+    a->z += other.z;
+    a->w += other.w;
 }
 
-JOGMATH_VEC_FUNCTION void vec4_sub(vec4 *a, vec4 *other)
+JOGMATH_VEC_FUNCTION void vec4_sub(vec4 *a, vec4 other)
 {
-    a->x -= other->x;
-    a->y -= other->y;
-    a->z -= other->z;
-    a->w -= other->w;
+    a->x -= other.x;
+    a->y -= other.y;
+    a->z -= other.z;
+    a->w -= other.w;
 }
 
-JOGMATH_VEC_FUNCTION void vec4_mult(vec4 *a, vec4 *other)
+JOGMATH_VEC_FUNCTION void vec4_mult(vec4 *a, vec4 other)
 {
-    a->x *= other->x;
-    a->y *= other->y;
-    a->z *= other->z;
-    a->w *= other->w;
+    a->x *= other.x;
+    a->y *= other.y;
+    a->z *= other.z;
+    a->w *= other.w;
 }
 
-JOGMATH_VEC_FUNCTION void vec4_div(vec4 *a, vec4 *other)
+JOGMATH_VEC_FUNCTION void vec4_div(vec4 *a, vec4 other)
 {
-    a->x /= other->x;
-    a->y /= other->y;
-    a->z /= other->z;
-    a->w /= other->w;
+    a->x /= other.x;
+    a->y /= other.y;
+    a->z /= other.z;
+    a->w /= other.w;
 }
 
 #endif // VECTORS_H
