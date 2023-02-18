@@ -3,7 +3,7 @@
 
 #define JOG_PI 3.14152653589
 
-float toRadians(float d)
+static inline float toRadians(float d)
 {
     return d * (JOG_PI / 180.0f);
 }
