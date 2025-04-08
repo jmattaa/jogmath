@@ -6,6 +6,11 @@ A header only math library for c and c++
 
 Clone the repo into your include directory of the project
 
+> [!IMPORTANT]
+> The documentation below is wrong, and the project is defenetly not finished
+
+### TODO: Update the documentation
+
 ## Usage/Examples
 
 Include the header file in your source
