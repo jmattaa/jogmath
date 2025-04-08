@@ -3,8 +3,8 @@
 
 #define JOGMATH_MAT_FUNCTION static inline
 
-#include "vectors.h"
 #include "mathdefs.h"
+#include "vectors.h"
 #include <math.h>
 
 /**
@@ -41,16 +41,15 @@ JOGMATH_MAT_FUNCTION mat4 mat4_diag(float diagonal)
     return mat;
 }
 
-JOGMATH_MAT_FUNCTION mat4 mat4_identity()
-{
-    return mat4_diag(1.0f);
-}
+JOGMATH_MAT_FUNCTION mat4 mat4_identity() { return mat4_diag(1.0f); }
 
-JOGMATH_MAT_FUNCTION mat4 mat4_orthographic(float left, float right, float top, float bottom, float near, float far)
+JOGMATH_MAT_FUNCTION mat4 mat4_orthographic(float left, float right, float top,
+                                            float bottom, float near, float far)
 {
     mat4 mat = mat4_empty();
 
-    // Values are from https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXSB5IrdRFoRgIA9ORVScxa8nsBrtOwb0TXvDSwYYkfiOMMjrwF2ORIVM8ki6i2_xVA1M&usqp=CAU
+    // Values are from
+    // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXSB5IrdRFoRgIA9ORVScxa8nsBrtOwb0TXvDSwYYkfiOMMjrwF2ORIVM8ki6i2_xVA1M&usqp=CAU
     mat.elements[0 + 0 * 4] = 2.0f / (right - left);
     mat.elements[1 + 1 * 4] = 2.0f / (top - bottom);
     mat.elements[2 + 2 * 4] = -2.0f / (far - near);
@@ -64,16 +63,21 @@ JOGMATH_MAT_FUNCTION mat4 mat4_orthographic(float left, float right, float top, 
     return mat;
 }
 
-JOGMATH_MAT_FUNCTION mat4 mat4_perspective(float fov, float aspect, float near, float far)
+JOGMATH_MAT_FUNCTION mat4 mat4_perspective(float fov, float aspect, float near,
+                                           float far)
 {
     mat4 mat = mat4_empty();
 
     // Values from https://i.stack.imgur.com/1qkwc.png
 
-    // [1 / (aspect * tan(fov / 2)), 000000000000000000, 000000000000000000000000000000, 0000000000000000000000000000000000,
-    //  000000000000000000000000000, 1 / (tan(fov / 2)), 000000000000000000000000000000, 0000000000000000000000000000000000,
-    //  000000000000000000000000000, 000000000000000000, -((far + near) / (far - near)), -((2 * far * near) / (far - near)),
-    //  000000000000000000000000000, 000000000000000000, ______________-1______________, 0000000000000000000000000000000000]
+    // [1 / (aspect * tan(fov / 2)), 000000000000000000,
+    // 000000000000000000000000000000, 0000000000000000000000000000000000,
+    //  000000000000000000000000000, 1 / (tan(fov / 2)),
+    //  000000000000000000000000000000, 0000000000000000000000000000000000,
+    //  000000000000000000000000000, 000000000000000000, -((far + near) / (far -
+    //  near)), -((2 * far * near) / (far - near)), 000000000000000000000000000,
+    //  000000000000000000, ______________-1______________,
+    //  0000000000000000000000000000000000]
 
     mat.elements[0 + 0 * 4] = 1 / (aspect * tan(toRadians(fov / 2)));
     mat.elements[1 + 1 * 4] = 1 / (tan(toRadians(fov / 2)));
@@ -85,7 +89,7 @@ JOGMATH_MAT_FUNCTION mat4 mat4_perspective(float fov, float aspect, float near, 
     return mat;
 }
 
-JOGMATH_MAT_FUNCTION mat4 mat4_translation(vec3 *translation)
+JOGMATH_MAT_FUNCTION mat4 mat4_translation(jogmath_vec3i *translation)
 {
     mat4 mat = mat4_identity();
 
@@ -147,7 +151,7 @@ JOGMATH_MAT_FUNCTION mat4 mat4_rotateZ(float angle)
     return mat;
 }
 
-JOGMATH_MAT_FUNCTION mat4 mat4_scale(vec3 scale)
+JOGMATH_MAT_FUNCTION mat4 mat4_scale(jogmath_vec3i scale)
 {
     mat4 mat = mat4_empty();
 
@@ -169,11 +173,14 @@ JOGMATH_MAT_FUNCTION mat4 mat4_multiply(mat4 *a, mat4 other)
             float sum = 0.0f;
             for (int element = 0; element < 4; element++)
             {
-                sum += a->elements[column + element * 4] * other.elements[row + element * 4];
+                sum += a->elements[column + element * 4] *
+                       other.elements[row + element * 4];
             }
-            a->elements[column + row * 4];
+            a->elements[column + row * 4] = a->elements[column + row * 4];
         }
     }
+
+    return *a;
 }
 
 #endif

@@ -1,169 +1,140 @@
-#ifndef VECTORS_H
-#define VECTORS_H
+#ifndef JOGMATH_VEC2_H
+#define JOGMATH_VEC2_H
 
-#include <stdlib.h>
+#ifdef __cplusplus
+#include <cstdio>
+#else
+#include <stdio.h>
+#endif
 
-#define JOGMATH_VEC_FUNCTION static inline
-//* VECTORS
-/**
- * @brief A union that contains two float values
- *
- */
-typedef union vec2
-{
-    struct
-    {
-        float x, y;
-    };
-    struct
-    {
-        float u, v;
-    };
-} vec2;
+#define JOGMATH_FUNC static inline
 
-// All x and y can be u or v
-JOGMATH_VEC_FUNCTION vec2 vec2_create(float x, float y)
-{
-    // {{x, y}} because it's a union
-    vec2 v = {{x, y}};
+#define JOGMATH_VEC_FUNCS_ITER(_X)                                             \
+    _X(add, +)                                                                 \
+    _X(sub, -)                                                                 \
+    _X(mul, *)                                                                 \
+    _X(div, /)
 
-    return v;
-}
+#define JOGMATH_VEC2_TYPES_ITER(_X, ...)                                       \
+    _X(jogmath_vec2f, float, __VA_ARGS__)                                      \
+    _X(jogmath_vec2d, double, __VA_ARGS__)                                     \
+    _X(jogmath_vec2i, int, __VA_ARGS__)
 
-JOGMATH_VEC_FUNCTION void vec2_add(vec2 *a, vec2 other)
-{
-    a->x += other.x;
-    a->y += other.y;
-}
+#define _X(name, type, ...)                                                    \
+    typedef union name                                                         \
+    {                                                                          \
+        struct                                                                 \
+        {                                                                      \
+            type x;                                                            \
+            type y;                                                            \
+        };                                                                     \
+        type v[2];                                                             \
+    } name;
+JOGMATH_VEC2_TYPES_ITER(_X);
+#undef _X
 
-JOGMATH_VEC_FUNCTION void vec2_sub(vec2 *a, vec2 other)
-{
-    a->x -= other.x;
-    a->y -= other.y;
-}
+#define _X2(name, type, funcname, op)                                          \
+    JOGMATH_FUNC void name##_##funcname(name a, name b, name out)              \
+    {                                                                          \
+        if (#op[0] == '/' && (b.v[0] == 0 || b.v[1] == 0))                     \
+        {                                                                      \
+            fprintf(stderr, "Error: Division by zero in vector operation\n");  \
+            return;                                                            \
+        }                                                                      \
+        out.v[0] = a.v[0] op b.v[0];                                           \
+        out.v[1] = a.v[1] op b.v[1];                                           \
+    }
+#define _X(name, op) JOGMATH_VEC2_TYPES_ITER(_X2, name, op)
+JOGMATH_VEC_FUNCS_ITER(_X)
+#undef _X
+#undef _X2
 
-JOGMATH_VEC_FUNCTION void vec2_mult(vec2 *a, vec2 other)
-{
-    a->x *= other.x;
-    a->y *= other.y;
-}
+#define JOGMATH_VEC3_TYPES_ITER(_X, ...)                                       \
+    _X(jogmath_vec3f, float, __VA_ARGS__)                                      \
+    _X(jogmath_vec3d, double, __VA_ARGS__)                                     \
+    _X(jogmath_vec3i, int, __VA_ARGS__)
 
-JOGMATH_VEC_FUNCTION void vec2_div(vec2 *a, vec2 other)
-{
-    a->x /= other.x;
-    a->y /= other.y;
-}
+#define _X(name, type, ...)                                                    \
+    typedef union name                                                         \
+    {                                                                          \
+        struct                                                                 \
+        {                                                                      \
+            type x;                                                            \
+            type y;                                                            \
+            type z;                                                            \
+        };                                                                     \
+        struct                                                                 \
+        {                                                                      \
+            type r;                                                            \
+            type g;                                                            \
+            type b;                                                            \
+        };                                                                     \
+        type v[3];                                                             \
+    } name;
+JOGMATH_VEC3_TYPES_ITER(_X);
+#undef _X
 
-/**
- * @brief Union with three values
- *
- */
-typedef union vec3
-{
-    struct
-    {
-        float x, y, z;
-    };
-    struct
-    {
-        float r, g, b;
-    };
-} vec3;
+#define _X2(name, type, funcname, op)                                          \
+    JOGMATH_FUNC void name##_##funcname(name a, name b, name out)              \
+    {                                                                          \
+        if (#op[0] == '/' && (b.v[0] == 0 || b.v[1] == 0 || b.v[2] == 0))      \
+        {                                                                      \
+            fprintf(stderr, "Error: Division by zero in vector operation\n");  \
+            return;                                                            \
+        }                                                                      \
+        out.v[0] = a.v[0] op b.v[0];                                           \
+        out.v[1] = a.v[1] op b.v[1];                                           \
+        out.v[2] = a.v[2] op b.v[2];                                           \
+    }
+#define _X(name, op) JOGMATH_VEC3_TYPES_ITER(_X2, name, op)
+JOGMATH_VEC_FUNCS_ITER(_X)
+#undef _X
+#undef _X2
 
-// x, y, z can be r, g, b
-JOGMATH_VEC_FUNCTION vec3 vec3_create(float x, float y, float z)
-{
-    vec3 v = {{x,
-               y,
-               z}};
+#define JOGMATH_VEC4_TYPES_ITER(_X, ...)                                       \
+    _X(jogmath_vec4f, float, __VA_ARGS__)                                      \
+    _X(jogmath_vec4d, double, __VA_ARGS__)                                     \
+    _X(jogmath_vec4i, int, __VA_ARGS__)
 
-    return v;
-}
+#define _X(name, type, ...)                                                    \
+    typedef union name                                                         \
+    {                                                                          \
+        struct                                                                 \
+        {                                                                      \
+            type x;                                                            \
+            type y;                                                            \
+            type z;                                                            \
+            type w;                                                            \
+        };                                                                     \
+        struct                                                                 \
+        {                                                                      \
+            type r;                                                            \
+            type g;                                                            \
+            type b;                                                            \
+            type a;                                                            \
+        };                                                                     \
+        type v[4];                                                             \
+    } name;
+JOGMATH_VEC4_TYPES_ITER(_X);
+#undef _X
 
-JOGMATH_VEC_FUNCTION void vec3_add(vec3 *a, vec3 other)
-{
-    a->x += other.x;
-    a->y += other.y;
-    a->z += other.z;
-}
+#define _X2(name, type, funcname, op)                                          \
+    JOGMATH_FUNC void name##_##funcname(name a, name b, name out)              \
+    {                                                                          \
+        if (#op[0] == '/' &&                                                   \
+            (b.v[0] == 0 || b.v[1] == 0 || b.v[2] == 0 || b.v[3] == 0))        \
+        {                                                                      \
+            fprintf(stderr, "Error: Division by zero in vector operation\n");  \
+            return;                                                            \
+        }                                                                      \
+        out.v[0] = a.v[0] op b.v[0];                                           \
+        out.v[1] = a.v[1] op b.v[1];                                           \
+        out.v[2] = a.v[2] op b.v[2];                                           \
+        out.v[3] = a.v[3] op b.v[3];                                           \
+    }
+#define _X(name, op) JOGMATH_VEC4_TYPES_ITER(_X2, name, op)
+JOGMATH_VEC_FUNCS_ITER(_X)
+#undef _X
+#undef _X2
 
-JOGMATH_VEC_FUNCTION void vec3_sub(vec3 *a, vec3 other)
-{
-    a->x -= other.x;
-    a->y -= other.y;
-    a->z -= other.z;
-}
-
-JOGMATH_VEC_FUNCTION void vec3_mult(vec3 *a, vec3 other)
-{
-    a->x *= other.x;
-    a->y *= other.y;
-    a->z *= other.z;
-}
-
-JOGMATH_VEC_FUNCTION void vec3_div(vec3 *a, vec3 other)
-{
-    a->x /= other.x;
-    a->y /= other.y;
-    a->z /= other.z;
-}
-
-/**
- * @brief Union with four values
- *
- */
-typedef union vec4
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-    struct
-    {
-        float r, g, b, a;
-    };
-} vec4;
-
-JOGMATH_VEC_FUNCTION vec4 vec4_create(float x, float y, float z, float w)
-{
-    vec4 v = {{x,
-               y,
-               z,
-               w}};
-
-    return v;
-}
-
-JOGMATH_VEC_FUNCTION void vec4_add(vec4 *a, vec4 other)
-{
-    a->x += other.x;
-    a->y += other.y;
-    a->z += other.z;
-    a->w += other.w;
-}
-
-JOGMATH_VEC_FUNCTION void vec4_sub(vec4 *a, vec4 other)
-{
-    a->x -= other.x;
-    a->y -= other.y;
-    a->z -= other.z;
-    a->w -= other.w;
-}
-
-JOGMATH_VEC_FUNCTION void vec4_mult(vec4 *a, vec4 other)
-{
-    a->x *= other.x;
-    a->y *= other.y;
-    a->z *= other.z;
-    a->w *= other.w;
-}
-
-JOGMATH_VEC_FUNCTION void vec4_div(vec4 *a, vec4 other)
-{
-    a->x /= other.x;
-    a->y /= other.y;
-    a->z /= other.z;
-    a->w /= other.w;
-}
-
-#endif // VECTORS_H
+#endif
